@@ -12,1236 +12,2180 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="Vent. Mecánica">
+
 <link rel="apple-touch-icon" href="icons/icon-192.png">
 <link rel="icon" type="image/png" sizes="512x512" href="icons/icon-512.png">
 
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap');
 
-  :root{
-    --bg: #0a1210;
-    --bg-panel: #0f1c19;
-    --bg-panel-2: #122420;
-    --line: #1f3a34;
-    --line-bright: #2a5048;
-    --cyan: #4de8c8;
-    --cyan-dim: #2c9a83;
-    --amber: #f2b84b;
-    --text: #e6f2ee;
-    --text-dim: #7fa89c;
-    --text-faint: #4a6a61;
-    --danger: #ef6b6b;
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap');
+
+:root{
+  --bg:#0a1210;
+  --bg-panel:#0f1c19;
+  --bg-panel-2:#122420;
+  --line:#1f3a34;
+  --line-bright:#2a5048;
+  --cyan:#4de8c8;
+  --cyan-dim:#2c9a83;
+  --amber:#f2b84b;
+  --text:#e6f2ee;
+  --text-dim:#7fa89c;
+  --text-faint:#4a6a61;
+  --danger:#ef6b6b;
+}
+
+*{
+  box-sizing:border-box;
+}
+
+html,body{
+  margin:0;
+  padding:0;
+  background:var(--bg);
+  color:var(--text);
+  font-family:'Space Grotesk',sans-serif;
+  min-height:100vh;
+}
+
+body{
+  background-image:
+    radial-gradient(circle at 15% 10%,rgba(77,232,200,.05),transparent 40%),
+    radial-gradient(circle at 85% 90%,rgba(242,184,75,.04),transparent 45%);
+}
+
+.scope-grid{
+  position:fixed;
+  inset:0;
+  pointer-events:none;
+  background-image:
+    linear-gradient(rgba(77,232,200,.035) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(77,232,200,.035) 1px,transparent 1px);
+  background-size:34px 34px;
+  z-index:0;
+}
+
+.wrap{
+  position:relative;
+  z-index:1;
+  max-width:780px;
+  margin:0 auto;
+  padding:28px 20px 60px;
+}
+
+/* HEADER */
+
+header{
+  border:1px solid var(--line);
+  border-radius:10px;
+  background:linear-gradient(180deg,var(--bg-panel),var(--bg-panel-2));
+  padding:18px 22px;
+  margin-bottom:22px;
+  display:flex;
+  align-items:center;
+}
+
+.brand{
+  display:flex;
+  align-items:center;
+  gap:12px;
+}
+
+.pulse-dot{
+  width:10px;
+  height:10px;
+  border-radius:50%;
+  background:var(--cyan);
+  box-shadow:0 0 0 0 rgba(77,232,200,.6);
+  animation:pulse 2.4s infinite;
+  flex-shrink:0;
+}
+
+@keyframes pulse{
+  0%{
+    box-shadow:0 0 0 0 rgba(77,232,200,.55);
   }
-
-  *{ box-sizing: border-box; }
-
-  html, body{
-    margin:0; padding:0;
-    background: var(--bg);
-    color: var(--text);
-    font-family: 'Space Grotesk', sans-serif;
-    min-height:100vh;
+  70%{
+    box-shadow:0 0 0 9px rgba(77,232,200,0);
   }
-
-  body{
-    background-image:
-      radial-gradient(circle at 15% 10%, rgba(77,232,200,0.05), transparent 40%),
-      radial-gradient(circle at 85% 90%, rgba(242,184,75,0.04), transparent 45%);
+  100%{
+    box-shadow:0 0 0 0 rgba(77,232,200,0);
   }
+}
 
-  .scope-grid{
-    position: fixed;
-    inset:0;
-    pointer-events:none;
-    background-image:
-      linear-gradient(rgba(77,232,200,0.035) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(77,232,200,0.035) 1px, transparent 1px);
-    background-size: 34px 34px;
-    z-index:0;
-  }
+h1{
+  font-size:1.05rem;
+  letter-spacing:.02em;
+  margin:0;
+  font-weight:700;
+  line-height:1.25;
+}
 
-  .wrap{
-    position:relative;
-    z-index:1;
-    max-width: 780px;
-    margin: 0 auto;
-    padding: 28px 20px 60px;
-  }
+/* BUTTONS */
 
-  /* ---- Header: monitor strip ---- */
-  header{
-    border: 1px solid var(--line);
-    border-radius: 10px;
-    background: linear-gradient(180deg, var(--bg-panel), var(--bg-panel-2));
-    padding: 18px 22px;
-    margin-bottom: 22px;
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-    gap: 16px;
-    flex-wrap: wrap;
-  }
+.btn-calc{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  width:100%;
+  background:rgba(77,232,200,.1);
+  border:1px solid var(--cyan-dim);
+  color:var(--cyan);
+  font-family:'Space Grotesk',sans-serif;
+  font-weight:600;
+  font-size:.88rem;
+  padding:12px 16px;
+  border-radius:7px;
+  cursor:pointer;
+  transition:all .15s;
+}
 
-  .brand{
-    display:flex;
-    align-items:center;
-    gap: 12px;
-  }
+.btn-calc:hover{
+  background:rgba(77,232,200,.18);
+  border-color:var(--cyan);
+}
 
-  .pulse-dot{
-    width: 10px; height:10px; border-radius:50%;
-    background: var(--cyan);
-    box-shadow: 0 0 0 0 rgba(77,232,200,0.6);
-    animation: pulse 2.4s infinite;
-    flex-shrink:0;
-  }
+.btn-calc:active{
+  transform:scale(.99);
+}
 
-  @keyframes pulse{
-    0%{ box-shadow: 0 0 0 0 rgba(77,232,200,0.55); }
-    70%{ box-shadow: 0 0 0 9px rgba(77,232,200,0); }
-    100%{ box-shadow: 0 0 0 0 rgba(77,232,200,0); }
-  }
+.btn-row{
+  display:flex;
+  gap:8px;
+  margin-top:4px;
+}
 
-  h1{
-    font-size: 1.05rem;
-    letter-spacing: 0.02em;
-    margin:0;
-    font-weight: 700;
-    line-height: 1.25;
-  }
+.btn-reset-mini{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  flex-shrink:0;
+  width:44px;
+  background:transparent;
+  border:1px solid var(--line-bright);
+  color:var(--text-dim);
+  border-radius:7px;
+  cursor:pointer;
+}
 
-  .subtitle{
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 0.7rem;
-    color: var(--text-dim);
-    letter-spacing: 0.04em;
-    margin-top: 2px;
-  }
+.btn-reset-mini:hover{
+  border-color:var(--danger);
+  color:var(--danger);
+}
 
-  .tag{
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 0.65rem;
-    color: var(--cyan-dim);
-    border: 1px solid var(--line-bright);
-    padding: 5px 10px;
-    border-radius: 20px;
-    letter-spacing: 0.06em;
-    white-space: nowrap;
-  }
+.btn-reset-mini svg{
+  width:16px;
+  height:16px;
+}
 
-  .reset-btn{
-    display:flex;
-    align-items:center;
-    gap: 6px;
-    background: transparent;
-    border: 1px solid var(--line-bright);
-    color: var(--text-dim);
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 0.68rem;
-    letter-spacing: 0.05em;
-    padding: 7px 12px;
-    border-radius: 20px;
-    cursor: pointer;
-    transition: all 0.15s;
-  }
+/* FORM */
 
-  .reset-btn:hover{
-    border-color: var(--danger);
-    color: var(--danger);
-  }
+.field-row{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:14px;
+  margin-bottom:14px;
+}
 
-  .reset-btn svg{
-    width: 13px; height: 13px;
-  }
+.field-row-3{
+  display:grid;
+  grid-template-columns:1fr 1fr 1fr;
+  gap:12px;
+  margin-bottom:14px;
+}
 
-  .btn-calc{
-    display: inline-flex;
-    align-items:center;
-    justify-content:center;
-    gap: 8px;
-    width: 100%;
-    background: rgba(77,232,200,0.1);
-    border: 1px solid var(--cyan-dim);
-    color: var(--cyan);
-    font-family: 'Space Grotesk', sans-serif;
-    font-weight: 600;
-    font-size: 0.88rem;
-    padding: 12px 16px;
-    border-radius: 7px;
-    cursor: pointer;
-    transition: all 0.15s;
-    margin-top: 4px;
-  }
+.field{
+  display:flex;
+  flex-direction:column;
+  gap:8px;
+}
 
-  .btn-calc:hover{
-    background: rgba(77,232,200,0.18);
-    border-color: var(--cyan);
-  }
+.field label{
+  font-family:'JetBrains Mono',monospace;
+  font-size:.68rem;
+  color:var(--text-dim);
+  letter-spacing:.05em;
+  text-transform:uppercase;
+}
 
-  .btn-calc:active{
-    transform: scale(0.99);
-  }
+input[type="number"]{
+  background:#081310;
+  border:1px solid var(--line-bright);
+  border-radius:7px;
+  color:var(--text);
+  font-family:'JetBrains Mono',monospace;
+  font-size:1rem;
+  padding:11px 12px;
+  width:100%;
+  outline:none;
+}
 
-  .btn-row{
-    display:flex;
-    gap: 8px;
-    margin-top: 4px;
-  }
+input[type="number"]:focus{
+  border-color:var(--cyan);
+  box-shadow:0 0 0 3px rgba(77,232,200,.12);
+}
 
-  .btn-row .btn-calc{
-    margin-top: 0;
-  }
+.gender-toggle{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:8px;
+}
 
-  .btn-reset-mini{
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    flex-shrink:0;
-    width: 44px;
-    background: transparent;
-    border: 1px solid var(--line-bright);
-    color: var(--text-dim);
-    border-radius: 7px;
-    cursor: pointer;
-    transition: all 0.15s;
-  }
+.gender-btn{
+  background:#081310;
+  border:1px solid var(--line-bright);
+  border-radius:7px;
+  color:var(--text-dim);
+  font-family:'Space Grotesk',sans-serif;
+  font-weight:600;
+  font-size:.88rem;
+  padding:11px 12px;
+  cursor:pointer;
+}
 
-  .btn-reset-mini:hover{
-    border-color: var(--danger);
-    color: var(--danger);
-  }
+.gender-btn.active{
+  background:rgba(77,232,200,.12);
+  border-color:var(--cyan);
+  color:var(--cyan);
+}
 
-  .btn-reset-mini svg{
-    width: 16px; height: 16px;
-  }
+.hint{
+  font-family:'JetBrains Mono',monospace;
+  font-size:.65rem;
+  color:var(--text-faint);
+  line-height:1.5;
+}
 
-  /* ---- Panels ---- */
-  .panel{
-    border: 1px solid var(--line);
-    border-radius: 10px;
-    background: linear-gradient(180deg, var(--bg-panel), var(--bg-panel-2));
-    padding: 22px;
-    margin-bottom: 18px;
-  }
+/* ACCORDION */
 
-  .panel-label{
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 0.68rem;
-    color: var(--text-faint);
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
-    margin-bottom: 16px;
-    display:flex;
-    align-items:center;
-    gap: 8px;
-  }
+.accordion{
+  border:1px solid var(--line);
+  border-radius:10px;
+  background:linear-gradient(180deg,var(--bg-panel),var(--bg-panel-2));
+  margin-bottom:14px;
+  overflow:hidden;
+}
 
-  .panel-label::before{
-    content:"";
-    width: 3px; height: 12px;
-    background: var(--cyan);
-    display:inline-block;
-    border-radius: 2px;
-  }
+.accordion-header{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+  padding:18px 22px;
+  cursor:pointer;
+  user-select:none;
+}
 
-  /* ---- Form ---- */
-  .field-row{
-    display:grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 14px;
-    margin-bottom: 14px;
-  }
+.accordion-header:hover{
+  background:rgba(77,232,200,.03);
+}
 
-  .field{
-    display:flex;
-    flex-direction: column;
-    gap: 8px;
-  }
+.accordion-title{
+  display:flex;
+  align-items:center;
+  gap:10px;
+}
 
-  .field label{
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 0.68rem;
-    color: var(--text-dim);
-    letter-spacing: 0.05em;
-    text-transform: uppercase;
-  }
+.panel-label{
+  font-family:'JetBrains Mono',monospace;
+  font-size:.68rem;
+  color:var(--text-faint);
+  letter-spacing:.14em;
+  text-transform:uppercase;
+  display:flex;
+  align-items:center;
+  gap:8px;
+}
 
-  input[type="number"]{
-    background: #081310;
-    border: 1px solid var(--line-bright);
-    border-radius: 7px;
-    color: var(--text);
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 1rem;
-    padding: 11px 12px;
-    width: 100%;
-    outline: none;
-    transition: border-color 0.15s, box-shadow 0.15s;
-  }
+.panel-label::before{
+  content:"";
+  width:3px;
+  height:12px;
+  background:var(--cyan);
+  display:inline-block;
+  border-radius:2px;
+}
 
-  input[type="number"]:focus{
-    border-color: var(--cyan);
-    box-shadow: 0 0 0 3px rgba(77,232,200,0.12);
-  }
+.accordion-sub{
+  font-family:'JetBrains Mono',monospace;
+  font-size:.62rem;
+  color:var(--text-faint);
+  margin-left:11px;
+}
 
-  input[type="number"]::-webkit-outer-spin-button,
-  input[type="number"]::-webkit-inner-spin-button{
-    opacity: 0.5;
-  }
+.accordion-chevron{
+  width:18px;
+  height:18px;
+  flex-shrink:0;
+  color:var(--text-dim);
+  transition:transform .25s ease;
+}
 
-  .gender-toggle{
-    display:grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 8px;
-  }
+.accordion.open .accordion-chevron{
+  transform:rotate(180deg);
+  color:var(--cyan);
+}
 
-  .gender-btn{
-    background: #081310;
-    border: 1px solid var(--line-bright);
-    border-radius: 7px;
-    color: var(--text-dim);
-    font-family: 'Space Grotesk', sans-serif;
-    font-weight: 600;
-    font-size: 0.88rem;
-    padding: 11px 12px;
-    cursor: pointer;
-    transition: all 0.15s;
-  }
+.accordion-body{
+  max-height:0;
+  overflow:hidden;
+  transition:max-height .3s ease;
+}
 
-  .gender-btn:hover{
-    border-color: var(--cyan-dim);
-    color: var(--text);
-  }
+.accordion.open .accordion-body{
+  max-height:1100px;
+}
 
-  .gender-btn.active{
-    background: rgba(77,232,200,0.12);
-    border-color: var(--cyan);
-    color: var(--cyan);
-  }
+.accordion-body-inner{
+  padding:0 22px 22px;
+}
 
-  .hint{
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 0.68rem;
-    color: var(--text-faint);
-    margin-top: 6px;
-    line-height: 1.5;
-  }
+/* PBW */
 
-  /* ---- Result: IBW readout ---- */
-  .ibw-readout{
-    display:flex;
-    align-items: baseline;
-    justify-content: space-between;
-    padding: 18px 20px;
-    background: #081310;
-    border: 1px solid var(--line-bright);
-    border-radius: 8px;
-    flex-wrap: wrap;
-    gap: 10px;
-  }
+.ibw-readout{
+  display:flex;
+  align-items:baseline;
+  justify-content:space-between;
+  padding:18px 20px;
+  background:#081310;
+  border:1px solid var(--line-bright);
+  border-radius:8px;
+  flex-wrap:wrap;
+  gap:10px;
+}
 
-  .ibw-readout .label{
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 0.72rem;
-    color: var(--text-dim);
-    letter-spacing: 0.04em;
-  }
+.ibw-readout .label{
+  font-family:'JetBrains Mono',monospace;
+  font-size:.72rem;
+  color:var(--text-dim);
+}
 
-  .ibw-readout .value{
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 2.1rem;
-    font-weight: 700;
-    color: var(--cyan);
-    line-height: 1;
-  }
+.ibw-readout .value{
+  font-family:'JetBrains Mono',monospace;
+  font-size:2.1rem;
+  font-weight:700;
+  color:var(--cyan);
+}
 
-  .ibw-readout .unit{
-    font-size: 1rem;
-    color: var(--text-dim);
-    font-weight: 500;
-    margin-left: 4px;
-  }
+.ibw-readout .unit{
+  font-size:1rem;
+  color:var(--text-dim);
+  margin-left:4px;
+}
 
-  .formula-note{
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 0.66rem;
-    color: var(--text-faint);
-    margin-top: 10px;
-    line-height: 1.6;
-  }
+.formula-note{
+  font-family:'JetBrains Mono',monospace;
+  font-size:.66rem;
+  color:var(--text-faint);
+  margin-top:10px;
+  line-height:1.6;
+}
 
-  /* ---- Volume table ---- */
-  .vt-table{
-    display:flex;
-    flex-direction: column;
-    gap: 10px;
+/* VT */
+
+.vt-table{
+  display:flex;
+  flex-direction:column;
+  gap:10px;
+}
+
+.vt-row{
+  display:grid;
+  grid-template-columns:90px 1fr 110px;
+  align-items:center;
+  gap:14px;
+  padding:14px 16px;
+  background:#081310;
+  border:1px solid var(--line);
+  border-radius:8px;
+}
+
+.vt-row.protective{
+  border-color:var(--cyan-dim);
+  background:rgba(77,232,200,.05);
+}
+
+.vt-row.watch{
+  border-color:rgba(242,184,75,.4);
+}
+
+.vt-tag{
+  font-family:'JetBrains Mono',monospace;
+  font-weight:700;
+  font-size:.95rem;
+}
+
+.vt-bar-wrap{
+  height:6px;
+  background:rgba(255,255,255,.05);
+  border-radius:3px;
+  overflow:hidden;
+}
+
+.vt-bar{
+  height:100%;
+  background:linear-gradient(90deg,var(--cyan-dim),var(--cyan));
+  border-radius:3px;
+}
+
+.vt-row.watch .vt-bar{
+  background:linear-gradient(90deg,#c98f2c,var(--amber));
+}
+
+.vt-value{
+  font-family:'JetBrains Mono',monospace;
+  font-size:1.15rem;
+  font-weight:700;
+  color:var(--cyan);
+  text-align:right;
+}
+
+.vt-row.watch .vt-value{
+  color:var(--amber);
+}
+
+.vt-value .u{
+  font-size:.68rem;
+  color:var(--text-dim);
+}
+
+.legend{
+  display:flex;
+  gap:18px;
+  margin-top:14px;
+  flex-wrap:wrap;
+}
+
+.legend-item{
+  display:flex;
+  align-items:center;
+  gap:7px;
+  font-family:'JetBrains Mono',monospace;
+  font-size:.66rem;
+  color:var(--text-dim);
+}
+
+.legend-dot{
+  width:8px;
+  height:8px;
+  border-radius:2px;
+}
+
+.legend-dot.protective{
+  background:var(--cyan);
+}
+
+.legend-dot.watch{
+  background:var(--amber);
+}
+
+.empty-state{
+  text-align:center;
+  padding:30px 20px;
+  color:var(--text-faint);
+  font-family:'JetBrains Mono',monospace;
+  font-size:.78rem;
+  line-height:1.7;
+}
+
+/* RESULTADOS */
+
+.result-readout{
+  display:flex;
+  align-items:baseline;
+  justify-content:space-between;
+  padding:16px 18px;
+  background:#081310;
+  border:1px solid var(--line-bright);
+  border-radius:8px;
+  flex-wrap:wrap;
+  gap:10px;
+}
+
+.result-readout .label{
+  font-family:'JetBrains Mono',monospace;
+  font-size:.72rem;
+  color:var(--text-dim);
+}
+
+.value-group{
+  display:flex;
+  align-items:baseline;
+}
+
+.result-readout .value{
+  font-family:'JetBrains Mono',monospace;
+  font-size:1.8rem;
+  font-weight:700;
+  color:var(--cyan);
+}
+
+.result-readout .unit{
+  font-size:.9rem;
+  color:var(--text-dim);
+  margin-left:4px;
+}
+
+.result-readout.status-warn .value{
+  color:var(--amber);
+}
+
+.result-readout.status-danger .value{
+  color:var(--danger);
+}
+
+.result-note{
+  font-family:'JetBrains Mono',monospace;
+  font-size:.66rem;
+  color:var(--text-faint);
+  margin-top:10px;
+  line-height:1.6;
+}
+
+.disclaimer{
+  border:1px dashed var(--line-bright);
+  border-radius:8px;
+  padding:14px 16px;
+  font-family:'JetBrains Mono',monospace;
+  font-size:.68rem;
+  color:var(--text-faint);
+  line-height:1.7;
+  margin-top:18px;
+}
+
+.disclaimer strong{
+  color:var(--text-dim);
+}
+
+footer{
+  text-align:center;
+  margin-top:30px;
+  padding-top:20px;
+  border-top:1px solid var(--line);
+}
+
+footer .credit{
+  font-family:'JetBrains Mono',monospace;
+  font-size:.72rem;
+  color:var(--text-faint);
+}
+
+footer .credit span{
+  color:var(--cyan-dim);
+}
+
+@media(max-width:520px){
+
+  .field-row,
+  .field-row-3{
+    grid-template-columns:1fr;
   }
 
   .vt-row{
-    display:grid;
-    grid-template-columns: 90px 1fr 110px;
-    align-items:center;
-    gap: 14px;
-    padding: 14px 16px;
-    background: #081310;
-    border: 1px solid var(--line);
-    border-radius: 8px;
-    transition: border-color 0.2s, background 0.2s;
+    grid-template-columns:70px 1fr 90px;
+    gap:10px;
+    padding:12px;
   }
 
-  .vt-row.protective{
-    border-color: var(--cyan-dim);
-    background: rgba(77,232,200,0.05);
-  }
-
-  .vt-row.watch{
-    border-color: rgba(242,184,75,0.4);
-  }
-
-  .vt-tag{
-    font-family: 'JetBrains Mono', monospace;
-    font-weight: 700;
-    font-size: 0.95rem;
-    color: var(--text);
-  }
-
-  .vt-bar-wrap{
-    height: 6px;
-    background: rgba(255,255,255,0.05);
-    border-radius: 3px;
-    overflow:hidden;
-  }
-
-  .vt-bar{
-    height: 100%;
-    background: linear-gradient(90deg, var(--cyan-dim), var(--cyan));
-    border-radius: 3px;
-    transition: width 0.4s ease;
-  }
-
-  .vt-row.watch .vt-bar{
-    background: linear-gradient(90deg, #c98f2c, var(--amber));
-  }
-
-  .vt-value{
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 1.15rem;
-    font-weight: 700;
-    color: var(--cyan);
-    text-align: right;
-  }
-
-  .vt-row.watch .vt-value{
-    color: var(--amber);
-  }
-
-  .vt-value .u{
-    font-size: 0.68rem;
-    color: var(--text-dim);
-    font-weight: 500;
-  }
-
-  .legend{
-    display:flex;
-    gap: 18px;
-    margin-top: 14px;
-    flex-wrap: wrap;
-  }
-
-  .legend-item{
-    display:flex;
-    align-items:center;
-    gap: 7px;
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 0.66rem;
-    color: var(--text-dim);
-  }
-
-  .legend-dot{
-    width: 8px; height: 8px; border-radius: 2px;
-  }
-
-  .legend-dot.protective{ background: var(--cyan); }
-  .legend-dot.watch{ background: var(--amber); }
-
-  .empty-state{
-    text-align:center;
-    padding: 30px 20px;
-    color: var(--text-faint);
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 0.78rem;
-    line-height: 1.7;
-  }
-
-  /* ---- Accordion sections ---- */
-  .accordion{
-    border: 1px solid var(--line);
-    border-radius: 10px;
-    background: linear-gradient(180deg, var(--bg-panel), var(--bg-panel-2));
-    margin-bottom: 14px;
-    overflow: hidden;
-  }
-
-  .accordion-header{
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-    gap: 12px;
-    padding: 18px 22px;
-    cursor: pointer;
-    user-select: none;
-  }
-
-  .accordion-header:hover{
-    background: rgba(77,232,200,0.03);
+  .ibw-readout .value{
+    font-size:1.7rem;
   }
 
   .accordion-title{
-    display:flex;
-    align-items:center;
-    gap: 10px;
-  }
-
-  .accordion-title .panel-label{
-    margin-bottom: 0;
+    flex-wrap:wrap;
   }
 
   .accordion-sub{
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 0.62rem;
-    color: var(--text-faint);
-    margin-left: 11px;
+    margin-left:11px;
   }
+}
 
-  .accordion-chevron{
-    width: 18px; height: 18px;
-    flex-shrink:0;
-    color: var(--text-dim);
-    transition: transform 0.25s ease;
-  }
-
-  .accordion.open .accordion-chevron{
-    transform: rotate(180deg);
-    color: var(--cyan);
-  }
-
-  .accordion-body{
-    max-height: 0;
-    overflow: hidden;
-    transition: max-height 0.3s ease;
-  }
-
-  .accordion.open .accordion-body{
-    max-height: 950px;
-  }
-
-  .accordion-body-inner{
-    padding: 0 22px 22px;
-  }
-
-  .field-row-3{
-    display:grid;
-    grid-template-columns: 1fr 1fr 1fr;
-    gap: 12px;
-    margin-bottom: 14px;
-  }
-
-  .result-readout{
-    display:flex;
-    align-items: baseline;
-    justify-content: space-between;
-    padding: 16px 18px;
-    background: #081310;
-    border: 1px solid var(--line-bright);
-    border-radius: 8px;
-    flex-wrap: wrap;
-    gap: 10px;
-    margin-top: 4px;
-  }
-
-  .result-readout .label{
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 0.72rem;
-    color: var(--text-dim);
-    letter-spacing: 0.04em;
-  }
-
-  .result-readout .value-group{
-    display:flex;
-    align-items: baseline;
-  }
-
-  .result-readout .value{
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 1.8rem;
-    font-weight: 700;
-    color: var(--cyan);
-    line-height: 1;
-  }
-
-  .result-readout .unit{
-    font-size: 0.9rem;
-    color: var(--text-dim);
-    font-weight: 500;
-    margin-left: 4px;
-  }
-
-  .result-readout.status-warn .value{ color: var(--amber); }
-  .result-readout.status-danger .value{ color: var(--danger); }
-
-  .status-badge{
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 0.64rem;
-    letter-spacing: 0.05em;
-    padding: 4px 10px;
-    border-radius: 20px;
-    border: 1px solid var(--line-bright);
-    color: var(--text-dim);
-    white-space: nowrap;
-  }
-
-  .status-badge.ok{ color: var(--cyan); border-color: var(--cyan-dim); background: rgba(77,232,200,0.08); }
-  .status-badge.warn{ color: var(--amber); border-color: rgba(242,184,75,0.5); background: rgba(242,184,75,0.08); }
-  .status-badge.danger{ color: var(--danger); border-color: rgba(239,107,107,0.5); background: rgba(239,107,107,0.08); }
-
-  .result-note{
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 0.66rem;
-    color: var(--text-faint);
-    margin-top: 10px;
-    line-height: 1.6;
-  }
-
-  .disclaimer{
-    border: 1px dashed var(--line-bright);
-    border-radius: 8px;
-    padding: 14px 16px;
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 0.68rem;
-    color: var(--text-faint);
-    line-height: 1.7;
-    margin-top: 18px;
-  }
-
-  .disclaimer strong{ color: var(--text-dim); }
-
-  footer{
-    text-align:center;
-    margin-top: 30px;
-    padding-top: 20px;
-    border-top: 1px solid var(--line);
-  }
-
-  footer .credit{
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 0.72rem;
-    color: var(--text-faint);
-    letter-spacing: 0.05em;
-  }
-
-  footer .credit span{
-    color: var(--cyan-dim);
-  }
-
-  @media (max-width: 520px){
-    .field-row{ grid-template-columns: 1fr; }
-    .vt-row{ grid-template-columns: 70px 1fr 90px; gap: 10px; padding: 12px; }
-    .ibw-readout .value{ font-size: 1.7rem; }
-  }
 </style>
 </head>
+
 <body>
+
 <div class="scope-grid"></div>
+
 <div class="wrap">
 
-  <header>
-    <div class="brand">
-      <div class="pulse-dot"></div>
-      <div>
-        <h1>Calculadora Ventilación Mecánica</h1>
-        <div class="subtitle">Peso Corporal Ideal · Fórmula de Devine</div>
-      </div>
-    </div>
-    <div style="display:flex; align-items:center; gap:10px;">
-      <div class="tag">VENTILACIÓN MECÁNICA</div>
-      <button type="button" class="reset-btn" onclick="resetAll()">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="1 4 1 10 7 10"></polyline><path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"></path></svg>
-        Reiniciar
-      </button>
-    </div>
-  </header>
+<header>
+  <div class="brand">
+    <div class="pulse-dot"></div>
+    <h1>Calculadora Ventilación Mecánica</h1>
+  </div>
+</header>
 
-  <!-- Peso Ideal y Volumen Corriente -->
-  <div class="accordion open" id="acc-vt">
-    <div class="accordion-header" onclick="toggleAccordion('acc-vt')">
-      <div class="accordion-title">
-        <div class="panel-label" style="margin-bottom:0;">Peso Ideal y Volumen Corriente</div>
-        <span class="accordion-sub">FÓRMULA DE DEVINE</span>
-      </div>
-      <svg class="accordion-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
-    </div>
-    <div class="accordion-body">
-      <div class="accordion-body-inner">
-        <div class="field-row">
-          <div class="field">
-            <label for="height">Estatura (cm)</label>
-            <input type="number" id="height" placeholder="ej. 170" min="100" max="230" step="1">
-          </div>
-          <div class="field">
-            <label>Género</label>
-            <div class="gender-toggle">
-              <button type="button" class="gender-btn active" id="btn-male" onclick="setGender('male')">Hombre</button>
-              <button type="button" class="gender-btn" id="btn-female" onclick="setGender('female')">Mujer</button>
-            </div>
-          </div>
-        </div>
-        <div class="btn-row">
-          <button type="button" class="btn-calc" onclick="calculate()">Calcular</button>
-          <button type="button" class="btn-reset-mini" onclick="resetVT()" title="Reiniciar esta sección">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="1 4 1 10 7 10"></polyline><path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"></path></svg>
-          </button>
-        </div>
 
-        <div class="ibw-readout" style="margin-top:16px;">
-          <div>
-            <div class="label">PCI ESTIMADO</div>
-          </div>
-          <div><span class="value" id="ibw-value">—</span><span class="unit">kg</span></div>
-        </div>
-        <div class="formula-note" id="formula-used">Hombre: PCI = 50 + 2.3 × ((altura en pulgadas) − 60)</div>
+<!-- PBW / VT -->
 
-        <div id="vt-container" style="margin-top:16px;">
-          <div class="empty-state">Ingresa la estatura del paciente para calcular el volumen corriente.</div>
-        </div>
-        <div class="legend" id="legend" style="display:none;">
-          <div class="legend-item"><span class="legend-dot protective"></span>Rango protector (6–8 ml/kg)</div>
-          <div class="legend-item"><span class="legend-dot watch"></span>Requiere vigilancia clínica</div>
-        </div>
-      </div>
+<div class="accordion" id="acc-vt">
+
+<div class="accordion-header" onclick="toggleAccordion('acc-vt')">
+
+  <div class="accordion-title">
+
+    <div class="panel-label">
+      PBW y Volumen Corriente
     </div>
+
+    <span class="accordion-sub">
+      VENTILACIÓN PROTECTORA
+    </span>
+
   </div>
 
-  <!-- PaFi / SaFi -->
-  <div class="accordion" id="acc-pafi">
-    <div class="accordion-header" onclick="toggleAccordion('acc-pafi')">
-      <div class="accordion-title">
-        <div class="panel-label" style="margin-bottom:0;">PaFi / SaFi</div>
-        <span class="accordion-sub">OXIGENACIÓN</span>
-      </div>
-      <svg class="accordion-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
-    </div>
-    <div class="accordion-body">
-      <div class="accordion-body-inner">
-        <div class="field-row-3">
-          <div class="field">
-            <label for="pafi-pao2">PaO2 (mmHg)</label>
-            <input type="number" id="pafi-pao2" placeholder="ej. 80" min="0" step="1">
-          </div>
-          <div class="field">
-            <label for="pafi-spo2">SpO2 (%)</label>
-            <input type="number" id="pafi-spo2" placeholder="ej. 95" min="0" max="100" step="1">
-          </div>
-          <div class="field">
-            <label for="pafi-fio2">FiO2 (%)</label>
-            <input type="number" id="pafi-fio2" placeholder="ej. 40" min="21" max="100" step="1">
-          </div>
-        </div>
-        <div class="btn-row">
-          <button type="button" class="btn-calc" onclick="calcPafi()">Calcular</button>
-          <button type="button" class="btn-reset-mini" onclick="resetPafi()" title="Reiniciar esta sección">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="1 4 1 10 7 10"></polyline><path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"></path></svg>
-          </button>
-        </div>
-        <div class="result-readout" id="pafi-readout" style="margin-top:12px;">
-          <div><div class="label">PAFI (PaO2/FiO2)</div></div>
-          <div class="value-group"><span class="value" id="pafi-value">—</span></div>
-        </div>
-        <div class="result-readout" id="safi-readout" style="margin-top:10px;">
-          <div><div class="label">SAFI (SpO2/FiO2)</div></div>
-          <div class="value-group"><span class="value" id="safi-value">—</span></div>
-        </div>
-        <div class="result-note">Clasificación de Berlín (SDRA, con PEEP ≥5): PaFi &gt;300 sin criterio · 201–300 leve · 101–200 moderado · ≤100 severo. SaFi es un sustituto no invasivo de referencia orientativa cuando no hay gasometría disponible.</div>
-      </div>
-    </div>
-  </div>
+  <svg class="accordion-chevron"
+       viewBox="0 0 24 24"
+       fill="none"
+       stroke="currentColor"
+       stroke-width="2">
 
-  <!-- Driving Pressure -->
-  <div class="accordion" id="acc-dp">
-    <div class="accordion-header" onclick="toggleAccordion('acc-dp')">
-      <div class="accordion-title">
-        <div class="panel-label" style="margin-bottom:0;">Driving Pressure</div>
-        <span class="accordion-sub">MECÁNICA VENTILATORIA</span>
-      </div>
-      <svg class="accordion-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
-    </div>
-    <div class="accordion-body">
-      <div class="accordion-body-inner">
-        <div class="field-row">
-          <div class="field">
-            <label for="dp-pplat">Presión meseta (cmH2O)</label>
-            <input type="number" id="dp-pplat" placeholder="ej. 22" min="0" step="0.5">
-          </div>
-          <div class="field">
-            <label for="dp-peep">PEEP (cmH2O)</label>
-            <input type="number" id="dp-peep" placeholder="ej. 8" min="0" step="0.5">
-          </div>
-        </div>
-        <div class="btn-row">
-          <button type="button" class="btn-calc" onclick="calcDP()">Calcular</button>
-          <button type="button" class="btn-reset-mini" onclick="resetDP()" title="Reiniciar esta sección">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="1 4 1 10 7 10"></polyline><path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"></path></svg>
-          </button>
-        </div>
-        <div class="result-readout" id="dp-readout" style="margin-top:12px;">
-          <div><div class="label">ΔP = PMESETA − PEEP</div></div>
-          <div class="value-group"><span class="value" id="dp-value">—</span><span class="unit">cmH2O</span></div>
-        </div>
-        <div class="result-note">Valores ≥15 cmH2O se han asociado a mayor mortalidad en SDRA (Amato et al.). El objetivo habitual es mantener ΔP &lt;13–15 cmH2O.</div>
-      </div>
-    </div>
-  </div>
+    <polyline points="6 9 12 15 18 9"></polyline>
 
-  <!-- Índice de Oxigenación -->
-  <div class="accordion" id="acc-io">
-    <div class="accordion-header" onclick="toggleAccordion('acc-io')">
-      <div class="accordion-title">
-        <div class="panel-label" style="margin-bottom:0;">Índice de Oxigenación</div>
-        <span class="accordion-sub">IO / OSI</span>
-      </div>
-      <svg class="accordion-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
-    </div>
-    <div class="accordion-body">
-      <div class="accordion-body-inner">
-        <div class="field-row-3">
-          <div class="field">
-            <label for="io-fio2">FiO2 (%)</label>
-            <input type="number" id="io-fio2" placeholder="ej. 50" min="21" max="100" step="1">
-          </div>
-          <div class="field">
-            <label for="io-map">MAP (cmH2O)</label>
-            <input type="number" id="io-map" placeholder="ej. 15" min="0" step="0.5">
-          </div>
-          <div class="field">
-            <label for="io-pao2">PaO2 (mmHg)</label>
-            <input type="number" id="io-pao2" placeholder="ej. 70" min="0" step="1">
-          </div>
-        </div>
-        <div class="field-row">
-          <div class="field">
-            <label for="io-spo2">SpO2 (%) — opcional para OSI</label>
-            <input type="number" id="io-spo2" placeholder="ej. 92" min="0" max="100" step="1">
-          </div>
-          <div></div>
-        </div>
-        <div class="btn-row">
-          <button type="button" class="btn-calc" onclick="calcIO()">Calcular</button>
-          <button type="button" class="btn-reset-mini" onclick="resetIO()" title="Reiniciar esta sección">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="1 4 1 10 7 10"></polyline><path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"></path></svg>
-          </button>
-        </div>
-        <div class="result-readout" id="io-readout" style="margin-top:12px;">
-          <div><div class="label">IO = (FiO2 × MAP × 100) / PaO2</div></div>
-          <div class="value-group"><span class="value" id="io-value">—</span></div>
-        </div>
-        <div class="result-readout" id="osi-readout" style="margin-top:10px;">
-          <div><div class="label">OSI = (FiO2 × MAP × 100) / SpO2</div></div>
-          <div class="value-group"><span class="value" id="osi-value">—</span></div>
-        </div>
-        <div class="result-note">A mayor IO/OSI, mayor severidad de la falla de oxigenación. Se usa con frecuencia en SDRA para evaluar gravedad y respuesta a maniobras de reclutamiento o terapias de rescate.</div>
-      </div>
-    </div>
-  </div>
-
-  <!-- Compliance -->
-  <div class="accordion" id="acc-compliance">
-    <div class="accordion-header" onclick="toggleAccordion('acc-compliance')">
-      <div class="accordion-title">
-        <div class="panel-label" style="margin-bottom:0;">Compliance</div>
-        <span class="accordion-sub">ESTÁTICA / DINÁMICA</span>
-      </div>
-      <svg class="accordion-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
-    </div>
-    <div class="accordion-body">
-      <div class="accordion-body-inner">
-        <div class="field-row-3">
-          <div class="field">
-            <label for="comp-vt">Vt (ml)</label>
-            <input type="number" id="comp-vt" placeholder="ej. 420" min="0" step="1">
-          </div>
-          <div class="field">
-            <label for="comp-ppico">P. pico (cmH2O)</label>
-            <input type="number" id="comp-ppico" placeholder="ej. 28" min="0" step="0.5">
-          </div>
-          <div class="field">
-            <label for="comp-pplat">P. meseta (cmH2O)</label>
-            <input type="number" id="comp-pplat" placeholder="ej. 22" min="0" step="0.5">
-          </div>
-        </div>
-        <div class="field-row">
-          <div class="field">
-            <label for="comp-peep">PEEP (cmH2O)</label>
-            <input type="number" id="comp-peep" placeholder="ej. 8" min="0" step="0.5">
-          </div>
-          <div></div>
-        </div>
-        <div class="btn-row">
-          <button type="button" class="btn-calc" onclick="calcCompliance()">Calcular</button>
-          <button type="button" class="btn-reset-mini" onclick="resetCompliance()" title="Reiniciar esta sección">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="1 4 1 10 7 10"></polyline><path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"></path></svg>
-          </button>
-        </div>
-        <div class="result-readout" id="cstat-readout" style="margin-top:12px;">
-          <div><div class="label">C. ESTÁTICA = Vt / (Pmeseta − PEEP)</div></div>
-          <div class="value-group"><span class="value" id="cstat-value">—</span><span class="unit">ml/cmH2O</span></div>
-        </div>
-        <div class="result-readout" id="cdyn-readout" style="margin-top:10px;">
-          <div><div class="label">C. DINÁMICA = Vt / (Ppico − PEEP)</div></div>
-          <div class="value-group"><span class="value" id="cdyn-value">—</span><span class="unit">ml/cmH2O</span></div>
-        </div>
-        <div class="result-note">Referencia orientativa en adultos: compliance estática normal ≈ 50–80 ml/cmH2O. Valores &lt;40 ml/cmH2O sugieren pulmón poco distensible (ej. SDRA).</div>
-      </div>
-    </div>
-  </div>
-
-  <!-- Mechanical Power -->
-  <div class="accordion" id="acc-mp">
-    <div class="accordion-header" onclick="toggleAccordion('acc-mp')">
-      <div class="accordion-title">
-        <div class="panel-label" style="margin-bottom:0;">Mechanical Power</div>
-        <span class="accordion-sub">POTENCIA MECÁNICA</span>
-      </div>
-      <svg class="accordion-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
-    </div>
-    <div class="accordion-body">
-      <div class="accordion-body-inner">
-        <div class="field-row-3">
-          <div class="field">
-            <label for="mp-fr">FR (resp/min)</label>
-            <input type="number" id="mp-fr" placeholder="ej. 18" min="0" step="1">
-          </div>
-          <div class="field">
-            <label for="mp-vt">Vt (ml)</label>
-            <input type="number" id="mp-vt" placeholder="ej. 420" min="0" step="1">
-          </div>
-          <div class="field">
-            <label for="mp-ppico">P. pico (cmH2O)</label>
-            <input type="number" id="mp-ppico" placeholder="ej. 28" min="0" step="0.5">
-          </div>
-        </div>
-        <div class="field-row">
-          <div class="field">
-            <label for="mp-pplat">P. meseta (cmH2O)</label>
-            <input type="number" id="mp-pplat" placeholder="ej. 22" min="0" step="0.5">
-          </div>
-          <div class="field">
-            <label for="mp-peep">PEEP (cmH2O)</label>
-            <input type="number" id="mp-peep" placeholder="ej. 8" min="0" step="0.5">
-          </div>
-        </div>
-        <div class="btn-row">
-          <button type="button" class="btn-calc" onclick="calcMP()">Calcular</button>
-          <button type="button" class="btn-reset-mini" onclick="resetMP()" title="Reiniciar esta sección">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="1 4 1 10 7 10"></polyline><path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"></path></svg>
-          </button>
-        </div>
-        <div class="result-readout" id="mp-readout" style="margin-top:12px;">
-          <div><div class="label">MP = 0.098 × FR × Vt × (Ppico − 0.5×ΔP)</div></div>
-          <div class="value-group"><span class="value" id="mp-value">—</span><span class="unit">J/min</span></div>
-        </div>
-        <div class="result-note">Fórmula simplificada para modo controlado por volumen (Gattinoni et al., 2016). Valores &gt;17–27 J/min se han asociado a mayor riesgo de mortalidad en estudios observacionales; sirve como referencia, no como umbral diagnóstico absoluto.</div>
-      </div>
-    </div>
-  </div>
-
-  <div class="disclaimer">
-    <strong>Nota clínica:</strong> esta calculadora es una herramienta de apoyo y no reemplaza el juicio clínico. La estrategia de ventilación protectora (6 ml/kg como objetivo, hasta 8 ml/kg según contexto) debe ajustarse según presión meseta, distensibilidad, gasometría y condición del paciente, de acuerdo a los protocolos institucionales vigentes.
-  </div>
-
-  <footer>
-    <div class="credit">Creado por <span>Luis Rivas V.</span></div>
-  </footer>
+  </svg>
 
 </div>
 
+
+<div class="accordion-body">
+
+<div class="accordion-body-inner">
+
+<div class="field-row">
+
+<div class="field">
+
+<label for="height">
+Estatura (cm)
+</label>
+
+<input
+type="number"
+id="height"
+placeholder="ej. 170"
+min="100"
+max="230"
+step="1">
+
+<div class="hint">
+Uso orientado a pacientes adultos. Verifica especialmente estaturas extremas.
+</div>
+
+</div>
+
+
+<div class="field">
+
+<label>
+Sexo para cálculo de PBW
+</label>
+
+<div class="gender-toggle">
+
+<button
+type="button"
+class="gender-btn active"
+id="btn-male"
+onclick="setGender('male')">
+
+Hombre
+
+</button>
+
+
+<button
+type="button"
+class="gender-btn"
+id="btn-female"
+onclick="setGender('female')">
+
+Mujer
+
+</button>
+
+</div>
+
+</div>
+
+</div>
+
+
+<div class="btn-row">
+
+<button
+type="button"
+class="btn-calc"
+onclick="calculate()">
+
+Calcular
+
+</button>
+
+
+<button
+type="button"
+class="btn-reset-mini"
+onclick="resetVT()"
+title="Reiniciar esta sección">
+
+<svg
+viewBox="0 0 24 24"
+fill="none"
+stroke="currentColor"
+stroke-width="2">
+
+<polyline points="1 4 1 10 7 10"></polyline>
+
+<path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"></path>
+
+</svg>
+
+</button>
+
+</div>
+
+
+<div class="ibw-readout" style="margin-top:16px;">
+
+<div>
+<div class="label">
+PBW ESTIMADO
+</div>
+</div>
+
+<div>
+
+<span
+class="value"
+id="ibw-value">
+
+—
+
+</span>
+
+<span class="unit">
+kg
+</span>
+
+</div>
+
+</div>
+
+
+<div
+class="formula-note"
+id="formula-used">
+
+Hombre: PBW = 50 + 2.3 × ((altura en pulgadas) − 60)
+
+</div>
+
+
+<div
+id="vt-container"
+style="margin-top:16px;">
+
+<div class="empty-state">
+
+Ingresa la estatura del paciente para calcular el volumen corriente.
+
+</div>
+
+</div>
+
+
+<div
+class="legend"
+id="legend"
+style="display:none;">
+
+<div class="legend-item">
+
+<span class="legend-dot protective"></span>
+
+4–6 ml/kg · estrategia protectora / reducción según contexto
+
+</div>
+
+<div class="legend-item">
+
+<span class="legend-dot watch"></span>
+
+7–8 ml/kg · ajustar según mecánica y condición clínica
+
+</div>
+
+</div>
+
+
+</div>
+</div>
+</div>
+
+
+<!-- PaFi SaFi -->
+
+<div class="accordion" id="acc-pafi">
+
+<div class="accordion-header" onclick="toggleAccordion('acc-pafi')">
+
+<div class="accordion-title">
+
+<div class="panel-label">
+PaFi / SaFi
+</div>
+
+<span class="accordion-sub">
+OXIGENACIÓN
+</span>
+
+</div>
+
+<svg class="accordion-chevron"
+viewBox="0 0 24 24"
+fill="none"
+stroke="currentColor"
+stroke-width="2">
+
+<polyline points="6 9 12 15 18 9"></polyline>
+
+</svg>
+
+</div>
+
+
+<div class="accordion-body">
+
+<div class="accordion-body-inner">
+
+
+<div class="field-row-3">
+
+<div class="field">
+
+<label for="pafi-pao2">
+PaO2 (mmHg)
+</label>
+
+<input
+type="number"
+id="pafi-pao2"
+placeholder="ej. 80"
+min="0"
+step="1">
+
+</div>
+
+
+<div class="field">
+
+<label for="pafi-spo2">
+SpO2 (%)
+</label>
+
+<input
+type="number"
+id="pafi-spo2"
+placeholder="ej. 95"
+min="0"
+max="100"
+step="1">
+
+</div>
+
+
+<div class="field">
+
+<label for="pafi-fio2">
+FiO2 (%)
+</label>
+
+<input
+type="number"
+id="pafi-fio2"
+placeholder="ej. 40"
+min="21"
+max="100"
+step="1">
+
+</div>
+
+</div>
+
+
+<div class="btn-row">
+
+<button class="btn-calc" onclick="calcPafi()">
+Calcular
+</button>
+
+<button
+class="btn-reset-mini"
+onclick="resetPafi()">
+
+↻
+
+</button>
+
+</div>
+
+
+<div
+class="result-readout"
+id="pafi-readout"
+style="margin-top:12px;">
+
+<div class="label">
+PAFI (PaO2 / FiO2)
+</div>
+
+<div class="value-group">
+
+<span
+class="value"
+id="pafi-value">
+
+—
+
+</span>
+
+</div>
+
+</div>
+
+
+<div
+class="result-readout"
+style="margin-top:10px;">
+
+<div class="label">
+SAFI (SpO2 / FiO2)
+</div>
+
+<div class="value-group">
+
+<span
+class="value"
+id="safi-value">
+
+—
+
+</span>
+
+</div>
+
+</div>
+
+
+<div class="result-note">
+
+Componente de oxigenación utilizado en la clasificación de SDRA. El PaFi por sí solo no establece el diagnóstico.
+
+</div>
+
+
+</div>
+</div>
+</div>
+
+
+<!-- DRIVING PRESSURE -->
+
+<div class="accordion" id="acc-dp">
+
+<div class="accordion-header" onclick="toggleAccordion('acc-dp')">
+
+<div class="accordion-title">
+
+<div class="panel-label">
+Driving Pressure
+</div>
+
+<span class="accordion-sub">
+MECÁNICA VENTILATORIA
+</span>
+
+</div>
+
+<svg class="accordion-chevron"
+viewBox="0 0 24 24"
+fill="none"
+stroke="currentColor"
+stroke-width="2">
+
+<polyline points="6 9 12 15 18 9"></polyline>
+
+</svg>
+
+</div>
+
+
+<div class="accordion-body">
+
+<div class="accordion-body-inner">
+
+
+<div class="field-row">
+
+<div class="field">
+
+<label>
+Presión meseta (cmH2O)
+</label>
+
+<input
+type="number"
+id="dp-pplat"
+placeholder="ej. 22"
+step=".5">
+
+</div>
+
+
+<div class="field">
+
+<label>
+PEEP (cmH2O)
+</label>
+
+<input
+type="number"
+id="dp-peep"
+placeholder="ej. 8"
+step=".5">
+
+</div>
+
+</div>
+
+
+<div class="btn-row">
+
+<button class="btn-calc" onclick="calcDP()">
+Calcular
+</button>
+
+<button class="btn-reset-mini" onclick="resetDP()">
+↻
+</button>
+
+</div>
+
+
+<div
+class="result-readout"
+id="dp-readout"
+style="margin-top:12px;">
+
+<div class="label">
+ΔP = Pmeseta − PEEP
+</div>
+
+<div class="value-group">
+
+<span
+class="value"
+id="dp-value">
+
+—
+
+</span>
+
+<span class="unit">
+cmH2O
+</span>
+
+</div>
+
+</div>
+
+
+<div class="result-note">
+
+Valores elevados de driving pressure se han asociado a peores resultados clínicos. Interpretar junto con volumen corriente, compliance y condición pulmonar.
+
+</div>
+
+
+</div>
+</div>
+</div>
+
+
+<!-- IO -->
+
+<div class="accordion" id="acc-io">
+
+<div class="accordion-header" onclick="toggleAccordion('acc-io')">
+
+<div class="accordion-title">
+
+<div class="panel-label">
+Índice de Oxigenación
+</div>
+
+<span class="accordion-sub">
+IO / OSI
+</span>
+
+</div>
+
+<svg class="accordion-chevron"
+viewBox="0 0 24 24"
+fill="none"
+stroke="currentColor"
+stroke-width="2">
+
+<polyline points="6 9 12 15 18 9"></polyline>
+
+</svg>
+
+</div>
+
+
+<div class="accordion-body">
+
+<div class="accordion-body-inner">
+
+
+<div class="field-row-3">
+
+<div class="field">
+
+<label>
+FiO2 (%)
+</label>
+
+<input
+type="number"
+id="io-fio2"
+placeholder="ej. 50"
+min="21"
+max="100">
+
+</div>
+
+
+<div class="field">
+
+<label>
+MAP (cmH2O)
+</label>
+
+<input
+type="number"
+id="io-map"
+placeholder="ej. 15"
+step=".5">
+
+</div>
+
+
+<div class="field">
+
+<label>
+PaO2 (mmHg)
+</label>
+
+<input
+type="number"
+id="io-pao2"
+placeholder="ej. 70">
+
+</div>
+
+</div>
+
+
+<div class="field-row">
+
+<div class="field">
+
+<label>
+SpO2 (%) — opcional para OSI
+</label>
+
+<input
+type="number"
+id="io-spo2"
+placeholder="ej. 92"
+max="100">
+
+</div>
+
+</div>
+
+
+<div class="btn-row">
+
+<button class="btn-calc" onclick="calcIO()">
+Calcular
+</button>
+
+<button class="btn-reset-mini" onclick="resetIO()">
+↻
+</button>
+
+</div>
+
+
+<div
+class="result-readout"
+id="io-readout"
+style="margin-top:12px;">
+
+<div class="label">
+
+IO = (FiO2 [%] × MAP) / PaO2
+
+</div>
+
+<div class="value-group">
+
+<span
+class="value"
+id="io-value">
+
+—
+
+</span>
+
+</div>
+
+</div>
+
+
+<div
+class="result-readout"
+style="margin-top:10px;">
+
+<div class="label">
+
+OSI = (FiO2 [%] × MAP) / SpO2
+
+</div>
+
+<div class="value-group">
+
+<span
+class="value"
+id="osi-value">
+
+—
+
+</span>
+
+</div>
+
+</div>
+
+
+<div class="result-note">
+
+A mayor IO u OSI, mayor compromiso de oxigenación. Interpretar siempre dentro del contexto clínico y ventilatorio.
+
+</div>
+
+
+</div>
+</div>
+</div>
+
+
+<!-- COMPLIANCE -->
+
+<div class="accordion" id="acc-compliance">
+
+<div class="accordion-header" onclick="toggleAccordion('acc-compliance')">
+
+<div class="accordion-title">
+
+<div class="panel-label">
+Compliance
+</div>
+
+<span class="accordion-sub">
+ESTÁTICA / DINÁMICA
+</span>
+
+</div>
+
+<svg class="accordion-chevron"
+viewBox="0 0 24 24"
+fill="none"
+stroke="currentColor"
+stroke-width="2">
+
+<polyline points="6 9 12 15 18 9"></polyline>
+
+</svg>
+
+</div>
+
+
+<div class="accordion-body">
+
+<div class="accordion-body-inner">
+
+
+<div class="field-row-3">
+
+<div class="field">
+<label>Vt (ml)</label>
+<input type="number" id="comp-vt" placeholder="ej. 420">
+</div>
+
+<div class="field">
+<label>P. pico</label>
+<input type="number" id="comp-ppico" placeholder="ej. 28">
+</div>
+
+<div class="field">
+<label>P. meseta</label>
+<input type="number" id="comp-pplat" placeholder="ej. 22">
+</div>
+
+</div>
+
+
+<div class="field-row">
+
+<div class="field">
+<label>PEEP</label>
+<input type="number" id="comp-peep" placeholder="ej. 8">
+</div>
+
+</div>
+
+
+<div class="btn-row">
+
+<button class="btn-calc" onclick="calcCompliance()">
+Calcular
+</button>
+
+<button class="btn-reset-mini" onclick="resetCompliance()">
+↻
+</button>
+
+</div>
+
+
+<div class="result-readout" id="cstat-readout" style="margin-top:12px;">
+
+<div class="label">
+C. ESTÁTICA
+</div>
+
+<div class="value-group">
+
+<span class="value" id="cstat-value">—</span>
+
+<span class="unit">
+ml/cmH2O
+</span>
+
+</div>
+
+</div>
+
+
+<div class="result-readout" style="margin-top:10px;">
+
+<div class="label">
+C. DINÁMICA
+</div>
+
+<div class="value-group">
+
+<span class="value" id="cdyn-value">—</span>
+
+<span class="unit">
+ml/cmH2O
+</span>
+
+</div>
+
+</div>
+
+
+</div>
+</div>
+</div>
+
+
+<!-- MECHANICAL POWER -->
+
+<div class="accordion" id="acc-mp">
+
+<div class="accordion-header" onclick="toggleAccordion('acc-mp')">
+
+<div class="accordion-title">
+
+<div class="panel-label">
+Mechanical Power
+</div>
+
+<span class="accordion-sub">
+POTENCIA MECÁNICA
+</span>
+
+</div>
+
+<svg class="accordion-chevron"
+viewBox="0 0 24 24"
+fill="none"
+stroke="currentColor"
+stroke-width="2">
+
+<polyline points="6 9 12 15 18 9"></polyline>
+
+</svg>
+
+</div>
+
+
+<div class="accordion-body">
+
+<div class="accordion-body-inner">
+
+
+<div class="field-row-3">
+
+<div class="field">
+<label>FR</label>
+<input type="number" id="mp-fr" placeholder="ej. 18">
+</div>
+
+<div class="field">
+<label>Vt (ml)</label>
+<input type="number" id="mp-vt" placeholder="ej. 420">
+</div>
+
+<div class="field">
+<label>P. pico</label>
+<input type="number" id="mp-ppico" placeholder="ej. 28">
+</div>
+
+</div>
+
+
+<div class="field-row">
+
+<div class="field">
+<label>P. meseta</label>
+<input type="number" id="mp-pplat" placeholder="ej. 22">
+</div>
+
+<div class="field">
+<label>PEEP</label>
+<input type="number" id="mp-peep" placeholder="ej. 8">
+</div>
+
+</div>
+
+
+<div class="btn-row">
+
+<button class="btn-calc" onclick="calcMP()">
+Calcular
+</button>
+
+<button class="btn-reset-mini" onclick="resetMP()">
+↻
+</button>
+
+</div>
+
+
+<div
+class="result-readout"
+id="mp-readout"
+style="margin-top:12px;">
+
+<div class="label">
+MECHANICAL POWER
+</div>
+
+<div class="value-group">
+
+<span
+class="value"
+id="mp-value">
+
+—
+
+</span>
+
+<span class="unit">
+J/min
+</span>
+
+</div>
+
+</div>
+
+
+</div>
+</div>
+</div>
+
+
+<div class="disclaimer">
+
+<strong>Nota clínica:</strong>
+
+esta calculadora es una herramienta de apoyo y no reemplaza el juicio clínico. La estrategia ventilatoria debe individualizarse según mecánica respiratoria, gasometría, condición clínica y protocolos institucionales vigentes.
+
+</div>
+
+
+<footer>
+
+<div class="credit">
+
+Creado por
+
+<span>
+Luis Rivas V.
+</span>
+
+</div>
+
+</footer>
+
+
+</div>
+
+
 <script>
-  let gender = 'male';
 
-  function setGender(g){
-    gender = g;
-    document.getElementById('btn-male').classList.toggle('active', g === 'male');
-    document.getElementById('btn-female').classList.toggle('active', g === 'female');
-    document.getElementById('formula-used').textContent = g === 'male'
-      ? 'Hombre: PCI = 50 + 2.3 × ((altura en pulgadas) − 60)'
-      : 'Mujer: PCI = 45.5 + 2.3 × ((altura en pulgadas) − 60)';
-    calculate();
-  }
+let gender='male';
 
-  function calculate(){
-    const heightInput = document.getElementById('height');
-    const heightCm = parseFloat(heightInput.value);
-    const vtContainer = document.getElementById('vt-container');
-    const legend = document.getElementById('legend');
-    const ibwValueEl = document.getElementById('ibw-value');
 
-    if(!heightCm || heightCm <= 0){
-      ibwValueEl.textContent = '—';
-      vtContainer.innerHTML = '<div class="empty-state">Ingresa la estatura del paciente para calcular el volumen corriente.</div>';
-      legend.style.display = 'none';
-      return;
-    }
+function toggleAccordion(id){
 
-    const heightInches = heightCm / 2.54;
-    const base = gender === 'male' ? 50 : 45.5;
-    let ibw = base + 2.3 * (heightInches - 60);
+document
+.getElementById(id)
+.classList
+.toggle('open');
 
-    // Devine formula is defined for heights above 5 ft (152.4 cm); guard against negative/unrealistic values
-    if(ibw < 0 || heightCm < 100){
-      ibwValueEl.textContent = '—';
-      vtContainer.innerHTML = '<div class="empty-state">Estatura fuera de rango válido para la fórmula de Devine.</div>';
-      legend.style.display = 'none';
-      return;
-    }
+}
 
-    ibwValueEl.textContent = ibw.toFixed(1);
 
-    const rates = [6, 7, 8];
-    const maxVt = ibw * 8;
-    let rowsHtml = '';
+/* SEXO PBW */
 
-    rates.forEach(rate => {
-      const vt = ibw * rate;
-      const widthPct = (vt / maxVt) * 100;
-      const cls = rate === 8 ? 'watch' : 'protective';
-      rowsHtml += `
-        <div class="vt-row ${cls}">
-          <div class="vt-tag">${rate} ml/kg</div>
-          <div class="vt-bar-wrap"><div class="vt-bar" style="width:${widthPct}%"></div></div>
-          <div class="vt-value">${vt.toFixed(0)} <span class="u">ml</span></div>
-        </div>`;
-    });
+function setGender(g){
 
-    vtContainer.innerHTML = `<div class="vt-table">${rowsHtml}</div>`;
-    legend.style.display = 'flex';
-  }
+gender=g;
 
-  // ---- Accordion ----
-  function toggleAccordion(id){
-    document.getElementById(id).classList.toggle('open');
-  }
+document
+.getElementById('btn-male')
+.classList
+.toggle('active',g==='male');
 
-  // ---- Helpers ----
-  function setResult(el, value, unit, statusClass){
-    el.classList.remove('status-warn', 'status-danger');
-    if(statusClass) el.classList.add(statusClass);
-  }
+document
+.getElementById('btn-female')
+.classList
+.toggle('active',g==='female');
 
-  // ---- PaFi / SaFi ----
-  function calcPafi(){
-    const pao2 = parseFloat(document.getElementById('pafi-pao2').value);
-    const spo2 = parseFloat(document.getElementById('pafi-spo2').value);
-    const fio2 = parseFloat(document.getElementById('pafi-fio2').value);
 
-    const pafiValueEl = document.getElementById('pafi-value');
-    const pafiReadout = document.getElementById('pafi-readout');
-    const safiValueEl = document.getElementById('safi-value');
+document
+.getElementById('formula-used')
+.textContent=
 
-    pafiReadout.classList.remove('status-warn', 'status-danger');
+g==='male'
 
-    if(fio2 && pao2){
-      const pafi = pao2 / (fio2 / 100);
-      pafiValueEl.textContent = pafi.toFixed(0);
-      if(pafi <= 100) pafiReadout.classList.add('status-danger');
-      else if(pafi <= 200) pafiReadout.classList.add('status-warn');
-    } else {
-      pafiValueEl.textContent = '—';
-    }
+? 'Hombre: PBW = 50 + 2.3 × ((altura en pulgadas) − 60)'
 
-    if(fio2 && spo2){
-      const safi = spo2 / (fio2 / 100);
-      safiValueEl.textContent = safi.toFixed(0);
-    } else {
-      safiValueEl.textContent = '—';
-    }
-  }
+: 'Mujer: PBW = 45.5 + 2.3 × ((altura en pulgadas) − 60)';
 
-  // ---- Driving Pressure ----
-  function calcDP(){
-    const pplat = parseFloat(document.getElementById('dp-pplat').value);
-    const peep = parseFloat(document.getElementById('dp-peep').value);
-    const dpValueEl = document.getElementById('dp-value');
-    const dpReadout = document.getElementById('dp-readout');
+}
 
-    dpReadout.classList.remove('status-warn', 'status-danger');
 
-    if(!isNaN(pplat) && !isNaN(peep)){
-      const dp = pplat - peep;
-      dpValueEl.textContent = dp.toFixed(1);
-      if(dp >= 15) dpReadout.classList.add('status-danger');
-      else if(dp >= 13) dpReadout.classList.add('status-warn');
-    } else {
-      dpValueEl.textContent = '—';
-    }
-  }
+/* PBW + VT */
 
-  // ---- Índice de Oxigenación ----
-  function calcIO(){
-    const fio2 = parseFloat(document.getElementById('io-fio2').value);
-    const map = parseFloat(document.getElementById('io-map').value);
-    const pao2 = parseFloat(document.getElementById('io-pao2').value);
-    const spo2 = parseFloat(document.getElementById('io-spo2').value);
+function calculate(){
 
-    const ioValueEl = document.getElementById('io-value');
-    const osiValueEl = document.getElementById('osi-value');
-    const ioReadout = document.getElementById('io-readout');
+const heightCm=
+parseFloat(
+document.getElementById('height').value
+);
 
-    ioReadout.classList.remove('status-warn', 'status-danger');
+const result=
+document.getElementById('ibw-value');
 
-    if(fio2 && map && pao2){
-      const io = (fio2 * map * 100) / (pao2 * 100);
-      ioValueEl.textContent = io.toFixed(1);
-      if(io >= 16) ioReadout.classList.add('status-danger');
-      else if(io >= 8) ioReadout.classList.add('status-warn');
-    } else {
-      ioValueEl.textContent = '—';
-    }
+const container=
+document.getElementById('vt-container');
 
-    if(fio2 && map && spo2){
-      const osi = (fio2 * map * 100) / (spo2 * 100);
-      osiValueEl.textContent = osi.toFixed(1);
-    } else {
-      osiValueEl.textContent = '—';
-    }
-  }
+const legend=
+document.getElementById('legend');
 
-  // ---- Compliance ----
-  function calcCompliance(){
-    const vt = parseFloat(document.getElementById('comp-vt').value);
-    const ppico = parseFloat(document.getElementById('comp-ppico').value);
-    const pplat = parseFloat(document.getElementById('comp-pplat').value);
-    const peep = parseFloat(document.getElementById('comp-peep').value);
 
-    const cstatValueEl = document.getElementById('cstat-value');
-    const cdynValueEl = document.getElementById('cdyn-value');
-    const cstatReadout = document.getElementById('cstat-readout');
+if(isNaN(heightCm)){
 
-    cstatReadout.classList.remove('status-warn', 'status-danger');
+result.textContent='—';
 
-    if(vt && !isNaN(pplat) && !isNaN(peep) && (pplat - peep) > 0){
-      const cstat = vt / (pplat - peep);
-      cstatValueEl.textContent = cstat.toFixed(1);
-      if(cstat < 25) cstatReadout.classList.add('status-danger');
-      else if(cstat < 40) cstatReadout.classList.add('status-warn');
-    } else {
-      cstatValueEl.textContent = '—';
-    }
+container.innerHTML=
+'<div class="empty-state">Ingresa la estatura del paciente para calcular el volumen corriente.</div>';
 
-    if(vt && !isNaN(ppico) && !isNaN(peep) && (ppico - peep) > 0){
-      const cdyn = vt / (ppico - peep);
-      cdynValueEl.textContent = cdyn.toFixed(1);
-    } else {
-      cdynValueEl.textContent = '—';
-    }
-  }
+legend.style.display='none';
 
-  // ---- Mechanical Power (Gattinoni simplificada, modo controlado por volumen) ----
-  function calcMP(){
-    const fr = parseFloat(document.getElementById('mp-fr').value);
-    const vtMl = parseFloat(document.getElementById('mp-vt').value);
-    const ppico = parseFloat(document.getElementById('mp-ppico').value);
-    const pplat = parseFloat(document.getElementById('mp-pplat').value);
-    const peep = parseFloat(document.getElementById('mp-peep').value);
+return;
 
-    const mpValueEl = document.getElementById('mp-value');
-    const mpReadout = document.getElementById('mp-readout');
+}
 
-    mpReadout.classList.remove('status-warn', 'status-danger');
 
-    if(fr && vtMl && !isNaN(ppico) && !isNaN(pplat) && !isNaN(peep)){
-      const vtL = vtMl / 1000;
-      const dp = pplat - peep;
-      const mp = 0.098 * fr * vtL * (ppico - 0.5 * dp);
-      mpValueEl.textContent = mp.toFixed(1);
-      if(mp >= 27) mpReadout.classList.add('status-danger');
-      else if(mp >= 17) mpReadout.classList.add('status-warn');
-    } else {
-      mpValueEl.textContent = '—';
-    }
-  }
+if(heightCm<100 || heightCm>230){
 
-  // ---- Reiniciar: Peso Ideal y Volumen Corriente ----
-  function resetVT(){
-    document.getElementById('height').value = '';
-    gender = 'male';
-    document.getElementById('btn-male').classList.add('active');
-    document.getElementById('btn-female').classList.remove('active');
-    document.getElementById('formula-used').textContent = 'Hombre: PCI = 50 + 2.3 × ((altura en pulgadas) − 60)';
-    document.getElementById('ibw-value').textContent = '—';
-    document.getElementById('vt-container').innerHTML = '<div class="empty-state">Ingresa la estatura del paciente para calcular el volumen corriente.</div>';
-    document.getElementById('legend').style.display = 'none';
-  }
+result.textContent='—';
 
-  // ---- Reiniciar: PaFi / SaFi ----
-  function resetPafi(){
-    ['pafi-pao2','pafi-spo2','pafi-fio2'].forEach(id => document.getElementById(id).value = '');
-    document.getElementById('pafi-value').textContent = '—';
-    document.getElementById('safi-value').textContent = '—';
-    document.getElementById('pafi-readout').classList.remove('status-warn', 'status-danger');
-  }
+container.innerHTML=
+'<div class="empty-state">Estatura fuera del rango operativo de la calculadora (100–230 cm). Verifica el dato ingresado.</div>';
 
-  // ---- Reiniciar: Driving Pressure ----
-  function resetDP(){
-    ['dp-pplat','dp-peep'].forEach(id => document.getElementById(id).value = '');
-    document.getElementById('dp-value').textContent = '—';
-    document.getElementById('dp-readout').classList.remove('status-warn', 'status-danger');
-  }
+legend.style.display='none';
 
-  // ---- Reiniciar: Índice de Oxigenación ----
-  function resetIO(){
-    ['io-fio2','io-map','io-pao2','io-spo2'].forEach(id => document.getElementById(id).value = '');
-    document.getElementById('io-value').textContent = '—';
-    document.getElementById('osi-value').textContent = '—';
-    document.getElementById('io-readout').classList.remove('status-warn', 'status-danger');
-  }
+return;
 
-  // ---- Reiniciar: Compliance ----
-  function resetCompliance(){
-    ['comp-vt','comp-ppico','comp-pplat','comp-peep'].forEach(id => document.getElementById(id).value = '');
-    document.getElementById('cstat-value').textContent = '—';
-    document.getElementById('cdyn-value').textContent = '—';
-    document.getElementById('cstat-readout').classList.remove('status-warn', 'status-danger');
-  }
+}
 
-  // ---- Reiniciar: Mechanical Power ----
-  function resetMP(){
-    ['mp-fr','mp-vt','mp-ppico','mp-pplat','mp-peep'].forEach(id => document.getElementById(id).value = '');
-    document.getElementById('mp-value').textContent = '—';
-    document.getElementById('mp-readout').classList.remove('status-warn', 'status-danger');
-  }
 
-  // ---- Reiniciar todo (botón del header) ----
-  function resetAll(){
-    resetVT();
-    resetPafi();
-    resetDP();
-    resetIO();
-    resetCompliance();
-    resetMP();
+const inches=
+heightCm/2.54;
 
-    // Colapsar todas las secciones desplegables, excepto la principal
-    document.querySelectorAll('.accordion.open').forEach(el => {
-      if(el.id !== 'acc-vt') el.classList.remove('open');
-    });
+const base=
+gender==='male'
+?50
+:45.5;
 
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  }
+const pbw=
+base+2.3*(inches-60);
 
-  // ---- Registrar Service Worker (PWA) ----
-  if('serviceWorker' in navigator){
-    window.addEventListener('load', () => {
-      navigator.serviceWorker.register('sw.js').catch(err => console.log('SW no registrado:', err));
-    });
-  }
-</script>
 
-</body>
-</html>
+if(pbw<=0){
+
+result.textContent='—';
+
+legend.style.display='none';
+
+return;
+
+}
+
+
+result.textContent=
+pbw.toFixed(1);
+
+
+const rates=[
+
+{
+rate:4,
+cls:'protective'
+},
+
+{
+rate:5,
+cls:'protective'
+},
+
+{
+rate:6,
+cls:'protective'
+},
+
+{
+rate:7,
+cls:'watch'
+},
+
+{
+rate:8,
+cls:'watch'
+}
+
+];
+
+
+const maxVt=
+pbw*8;
+
+let html='';
+
+
+rates.forEach(item=>{
+
+const vt=
+pbw*item.rate;
+
+const width=
+(vt/maxVt)*100;
+
+
+html+=`
+
+<div class="vt-row ${item.cls}">
+
+<div class="vt-tag">
+
+${item.rate} ml/kg
+
+</div>
+
+<div class="vt-bar-wrap">
+
+<div
+class="vt-bar"
+style="width:${width}%">
+
+</div>
+
+</div>
+
+<div class="vt-value">
+
+${vt.toFixed(0)}
+
+<span class="u">
+ml
+</span>
+
+</div>
+
+</div>
+
+`;
+
+});
+
+
+container.innerHTML=
+`<div class="vt-table">${html}</div>`;
+
+legend.style.display='flex';
+
+}
+
+
+/* PAFI SAFI */
+
+function calcPafi(){
+
+const pao2=
+parseFloat(
+document.getElementById('pafi-pao2').value
+);
+
+const spo2=
+parseFloat(
+document.getElementById('pafi-spo2').value
+);
+
+const fio2=
+parseFloat(
+document.getElementById('pafi-fio2').value
+);
+
+
+const readout=
+document.getElementById('pafi-readout');
+
+readout.classList.remove(
+'status-warn',
+'status-danger'
+);
+
+
+if(fio2 && pao2){
+
+const pafi=
+pao2/(fio2/100);
+
+document
+.getElementById('pafi-value')
+.textContent=
+pafi.toFixed(0);
+
+
+if(pafi<=100){
+
+readout
+.classList
+.add('status-danger');
+
+}
+
+else if(pafi<=200){
+
+readout
+.classList
+.add('status-warn');
+
+}
+
+}
+
+else{
+
+document
+.getElementById('pafi-value')
+.textContent='—';
+
+}
+
+
+if(fio2 && spo2){
+
+const safi=
+spo2/(fio2/100);
+
+document
+.getElementById('safi-value')
+.textContent=
+safi.toFixed(0);
+
+}
+
+else{
+
+document
+.getElementById('safi-value')
+.textContent='—';
+
+}
+
+}
+
+
+/* DRIVING PRESSURE */
+
+function calcDP(){
+
+const pplat=
+parseFloat(
+document.getElementById('dp-pplat').value
+);
+
+const peep=
+parseFloat(
+document.getElementById('dp-peep').value
+);
+
+const readout=
+document.getElementById('dp-readout');
+
+
+readout.classList.remove(
+'status-warn',
+'status-danger'
+);
+
+
+if(!isNaN(pplat) && !isNaN(peep)){
+
+const dp=
+pplat-peep;
+
+document
+.getElementById('dp-value')
+.textContent=
+dp.toFixed(1);
+
+
+if(dp>=15){
+
+readout
+.classList
+.add('status-danger');
+
+}
+
+else if(dp>=13){
+
+readout
+.classList
+.add('status-warn');
+
+}
+
+}
+
+else{
+
+document
+.getElementById('dp-value')
+.textContent='—';
+
+}
+
+}
+
+
+/* IO / OSI */
+
+function calcIO(){
+
+const fio2=
+parseFloat(
+document.getElementById('io-fio2').value
+);
+
+const map=
+parseFloat(
+document.getElementById('io-map').value
+);
+
+const pao2=
+parseFloat(
+document.getElementById('io-pao2').value
+);
+
+const spo2=
+parseFloat(
+document.getElementById('io-spo2').value
+);
+
+
+const readout=
+document.getElementById('io-readout');
+
+
+readout.classList.remove(
+'status-warn',
+'status-danger'
+);
+
+
+if(fio2 && map && pao2){
+
+/*
+FiO2 se ingresa como porcentaje:
+ejemplo 50 en vez de 0.50
+
+Por eso:
+IO = FiO2 (%) × MAP / PaO2
+*/
+
+const io=
+(fio2*map)/pao2;
+
+
+document
+.getElementById('io-value')
+.textContent=
+io.toFixed(1);
+
+
+if(io>=16){
+
+readout
+.classList
+.add('status-danger');
+
+}
+
+else if(io>=8){
+
+readout
+.classList
+.add('status-warn');
+
+}
+
+}
+
+else{
+
+document
+.getElementById('io-value')
+.textContent='—';
+
+}
+
+
+if(fio2 && map && spo2){
+
+const osi=
+(fio2*map)/spo2;
+
+
+document
+.getElementById('osi-value')
+.textContent=
+osi.toFixed(1);
+
+}
+
+else{
+
+document
+.getElementById('osi-value')
+.textContent='—';
+
+}
+
+}
+
+
+/* COMPLIANCE */
+
+function calcCompliance(){
+
+const vt=
+parseFloat(
+document.getElementById('comp-vt').value
+);
+
+const ppico=
+parseFloat(
+document.getElementById('comp-ppico').value
+);
+
+const pplat=
+parseFloat(
+document.getElementById('comp-pplat').value
+);
+
+const peep=
+parseFloat(
+document.getElementById('comp-peep').value
+);
+
+
+const readout=
+document.getElementById('cstat-readout');
+
+
+readout.classList.remove(
+'status-warn',
+'status-danger'
+);
+
+
+if(
+vt &&
+!isNaN(pplat) &&
+!isNaN(peep) &&
+pplat>peep
+){
+
+const cstat=
+vt/(pplat-peep);
+
+
+document
+.getElementById('cstat-value')
+.textContent=
+cstat.toFixed(1);
+
+
+if(cstat<25){
+
+readout
+.classList
+.add('status-danger');
+
+}
+
+else if(cstat<40){
+
+readout
+.classList
+.add('status-warn');
+
+}
+
+}
+
+else{
+
+document
+.getElementById('cstat-value')
+.textContent='—';
+
+}
+
+
+if(
+vt &&
+!isNaN(ppico) &&
+!isNaN(peep) &&
+ppico>peep
+){
+
+const cdyn=
+vt/(ppico-peep);
+
+
+document
+.getElementById('cdyn-value')
+.textContent=
+cdyn.toFixed(1);
+
+}
+
+else{
+
+document
+.getElementById('cdyn-value')
+.textContent='—';
+
+}
+
+}
+
+
+/* MECHANICAL POWER */
+
+function calcMP(){
+
+const fr=
+parseFloat(
+document.getElementById('mp-fr').value
+);
+
+const vtMl=
+parseFloat(
+document.getElementById('mp-vt').value
+);
+
+const ppico=
+parseFloat(
+document.getElementById('mp-ppico').value
+);
+
+const pplat=
+parseFloat(
+document.getElementById('mp-pplat').value
+);
+
+const peep=
+parseFloat(
+document.getElementById('mp-peep').value
+);
+
+
+const readout=
+document.getElementById('mp-readout');
+
+
+readout.classList.remove(
+'status-warn',
+'status-danger'
+);
+
+
+if(
+fr &&
+vtMl &&
+!isNaN(ppico) &&
+!isNaN(pplat) &&
+!isNaN(peep)
+){
+
+const vtL=
+vtMl/1000;
+
+const dp=
+pplat-peep;
