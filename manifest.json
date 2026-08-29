@@ -1,6 +1,6 @@
 {
-  "name": "MecaVent",
-  "short_name": "MecaVent",
+  "name": "VentCalc",
+  "short_name": "VentCalc",
   "description": "Herramientas clínicas de ventilación mecánica, mecánica respiratoria y oxigenación para adultos.",
   "start_url": "./index.html",
   "scope": "./",
