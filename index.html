@@ -3,13 +3,13 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>MecaVent</title>
+<title>VentCalc</title>
 <link rel="manifest" href="manifest.json?v=020">
 <meta name="theme-color" content="#0a1210">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="apple-mobile-web-app-title" content="MecaVent">
+<meta name="apple-mobile-web-app-title" content="VentCalc">
 <link rel="apple-touch-icon" sizes="180x180" href="icons/icon-180.png">
 <link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png">
 <link rel="icon" type="image/png" sizes="512x512" href="icons/icon-512.png">
@@ -29,7 +29,7 @@ header,.accordion,.summary-card{border:1px solid var(--line);background:linear-g
 </style>
 </head>
 <body><div class="gridbg"></div><div class="wrap">
-<header><div class="brand"><div class="dot"></div><div><h1>MecaVent</h1><div class="subtitle">MECÁNICA · OXIGENACIÓN · VENTILACIÓN PROTECTORA</div></div></div><div class="version">v0.2</div></header>
+<header><div class="brand"><div class="dot"></div><div><h1>VentCalc</h1><div class="subtitle">MECÁNICA · OXIGENACIÓN · VENTILACIÓN PROTECTORA</div></div></div><div class="version">v0.2</div></header>
 
 <section class="accordion open" id="acc-pbw"><div class="accordion-header" onclick="toggle('acc-pbw')"><div class="accordion-title"><div class="label">PBW y volumen corriente</div><div class="tag">VENTILACIÓN PROTECTORA</div></div><div class="chev">⌄</div></div><div class="body"><div class="inner">
 <div class="row"><div class="field"><label>Estatura (cm)</label><input id="height" type="number" min="100" max="230" placeholder="Ej. 170"></div><div class="field"><label>Sexo para PBW</label><div class="toggle"><button id="male" class="active" onclick="setGender('male')">Hombre</button><button id="female" onclick="setGender('female')">Mujer</button></div></div></div>
